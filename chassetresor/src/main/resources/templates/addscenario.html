@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Créer un scénario :</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <h1>Le scénario :</h1>
+
+          
+      <form th:action="@{/addScenario}"
+         th:object="${scenarioForm}" method="POST">
+         <input type="hidden" th:field="*{id}" />
+         Titre :
+         <input type="text" th:field="*{titre}" />    
+         <br/>
+         Description :
+         <input type="text" th:field="*{description}" />     
+         <br/>
+         <input type="submit" th:value="${libelleAction}" />
+      </form>
+       
+      <br/>
+      <h1>Les étapes liées :</h1>
+      <div>
+         <table border="1">
+            <tr>
+               <th>Titre</th>
+               <th>Description</th>
+            </tr>
+            <tr th:each ="etape : ${etapes}">
+               <td th:utext="${etape.titre}">...</td>
+               <td th:utext="${etape.description}">...</td>
+            </tr>
+         </table>
+      </div>
+       
+      <!-- Check if errorMessage is not null and not empty -->
+       
+      <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
+       
+   </body>
+</html>

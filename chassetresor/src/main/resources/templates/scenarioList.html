@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Scenario List</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <h1>Liste de scénarios</h1>
+      <a href="addScenario">Ajouter un scénario</a>
+      <br/><br/>
+      <div>
+         <table border="1">
+            <tr>
+               <th>Titre</th>
+               <th>Description</th>
+            </tr>
+            <tr th:each ="scenario : ${scenarios}">
+               <td th:utext="${scenario.titre}">...</td>
+               <td th:utext="${scenario.description}">...</td>
+               <td>
+					<a 
+						href="./addScenario.html"
+						th:href="@{/updatescenario/{id}(id=${scenario.id})}">
+						Modifier
+					</a>
+				</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Créer un plot :</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <h1>Créer un plot :</h1>
+
+          
+      <form th:action="@{/addPlot}"
+         th:object="${plotForm}" method="POST">
+         Titre :
+         <input type="text" th:field="*{titre}" />    
+         <br/>
+         Description :
+         <input type="text" th:field="*{description}" />     
+         <br/>
+         Type de brique : <select
+					th:field="*{typePlot}">
+						<option value="">--</option>
+						<option value="INTERLUDE">Interlude</option>
+						<option value="QUESTION">Question</option>
+						<option value="CHOIX_REPONSE">Choix de réponses</option>
+						<option value="REPONSE_JUSTE">Réponse juste</option>
+						<option value="REPONSE_FAUSSE">Réponse fausse</option>
+				</select>
+         <input type="submit" value="Créer" />
+      </form>
+       
+      <br/>
+       
+      <!-- Check if errorMessage is not null and not empty -->
+       
+      <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
+       
+   </body>
+</html>

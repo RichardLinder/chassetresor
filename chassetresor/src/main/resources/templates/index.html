@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Welcome</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <h1>Bienvenue</h1>
+      <h2 th:utext="${message}">..!..</h2>
+                 
+      <a th:href="@{/scenarioList}">Liste de sc&eacute;narios</a>  
+      <a th:href="@{/etapeList}">Liste d'&eacute;tapes</a>  
+       
+   </body>
+    
+</html>
