@@ -3,6 +3,8 @@ package fr.cnam.usal3b.nom.prenom.model;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -14,6 +16,9 @@ public class Brique {
 
 	protected String titre;
 	protected String description;
+//	@ManyToOne
+//	@JoinColumn(name = "plot_id", nullable = false)
+//	private Plot plot;
 
 	public Brique() {
 	}

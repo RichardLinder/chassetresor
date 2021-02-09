@@ -1,11 +1,13 @@
 package fr.cnam.usal3b.nom.prenom.model;
 
 import javax.persistence.Entity;
+import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Etape {
@@ -16,9 +18,22 @@ public class Etape {
 
 	private String titre;
 	private String description;
+	
+
+	@OneToMany(mappedBy = "etape")
+	private List<Plot> plot;
+
 	@ManyToOne
-	@JoinColumn(name = "etape_id", nullable = false)
+	@JoinColumn(name = "scenario_id", nullable = false)
 	private Scenario scenario;
+
+	public Scenario getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(Scenario scenario) {
+		this.scenario = scenario;
+	}
 
 	public Etape() {
 	}
@@ -52,11 +67,13 @@ public class Etape {
 		this.id = id;
 	}
 
-	public Scenario getScenario() {
-		return scenario;
+	public List<Plot> getPlot() {
+		return plot;
 	}
 
-	public void setScenario(Scenario scenario) {
-		this.scenario = scenario;
+	public void setPlot(List<Plot> plot) {
+		this.plot = plot;
 	}
-}
+	
+	
+	}
