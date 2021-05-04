@@ -1,37 +1,29 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <meta charset="UTF-8" />
-      <title>Créer une étape :</title>
-      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-   </head>
-   <body>
-      <h1>Créer une étape :</h1>
+<head>
+<meta charset="UTF-8" />
+<title>Créer une étape :</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<h1>Créer une étape :</h1>
 
-          
-      <form th:action="@{/addEtape}"
-         th:object="${etapeForm}" method="POST">
-         Titre :
-         <input type="text" th:field="*{titre}" />    
-         <br/>
-         Description :
-         <input type="text" th:field="*{description}" />     
-         Scénario : <select th:field="*{scenarioId}">
-						<option th:each="scenario : ${scenarios}" th:value="${scenario.id}"
-							th:utext="${scenario.titre}" />
-				</select>
-         <br/>
-         <input type="submit" value="Créer" />
-      </form>
-       
-      <br/>
-       
-      <!-- Check if errorMessage is not null and not empty -->
-       
-      <div th:if="${errorMessage}" th:utext="${errorMessage}"
-         style="color:red;font-style:italic;">
-         ...
-      </div>
-       
-   </body>
+
+	<form th:action="@{/addEtape}" th:object="${etapeForm}" method="POST">
+		Titre : <input type="text" th:field="*{titre}" /> <br /> Description
+		: <input type="text" th:field="*{description}" /> <br /> Scénario : <select
+			th:field="*{scenarioId}">
+			<option th:each="scenario : ${scenarios}" th:value="${scenario.id}"
+				th:utext="${scenario.titre}" />
+		</select> <br /> <input type="submit" value="Créer" />
+	</form>
+
+	<br />
+
+	<!-- Check if errorMessage is not null and not empty -->
+
+	<div th:if="${errorMessage}" th:utext="${errorMessage}"
+		style="color: red; font-style: italic;">...</div>
+
+</body>
 </html>

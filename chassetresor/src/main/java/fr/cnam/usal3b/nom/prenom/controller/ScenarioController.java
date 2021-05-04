@@ -1,6 +1,5 @@
 package fr.cnam.usal3b.nom.prenom.controller;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.cnam.usal3b.nom.prenom.form.ScenarioForm;
-import fr.cnam.usal3b.nom.prenom.model.Etape;
 import fr.cnam.usal3b.nom.prenom.model.Scenario;
-import fr.cnam.usal3b.nom.prenom.repository.EtapeRepository;
 import fr.cnam.usal3b.nom.prenom.repository.ScenarioRepository;
+import fr.cnam.usal3b.nom.prenom.service.EtapeService;
+import fr.cnam.usal3b.nom.prenom.service.ScenarioService;
 
 @Controller
 public class ScenarioController {
 
 	@Autowired
-	private ScenarioRepository scenarioRepository;
+	private ScenarioService scenarioService;
 	@Autowired
-	private EtapeRepository etapeRepository;
+	private EtapeService etapeService;
+	//@Autowired
+	//private ScenarioRepository scenarioRepository;
 
 	// Injectez (inject) via application.properties.
 	@Value("${welcome.message}")
@@ -44,7 +45,7 @@ public class ScenarioController {
 	@RequestMapping(value = { "/scenarioList" }, method = RequestMethod.GET)
 	public String scenarioList(Model model) {
 
-		Iterable<Scenario> scenariosDb = scenarioRepository.findAll();
+		Iterable<Scenario> scenariosDb = ScenarioService.getTout();
 		model.addAttribute("scenarios", scenariosDb);
 
 		return "scenarioList";
@@ -55,8 +56,7 @@ public class ScenarioController {
 
 		ScenarioForm scenarioForm = new ScenarioForm();
 		model.addAttribute("scenarioForm", scenarioForm);
-		model.addAttribute("libelleAction", "Créer");
-		model.addAttribute("etapes", new ArrayList<Etape>());
+		model.addAttribute("typeAction", "Créer");
 
 		return "addScenario";
 	}
@@ -66,16 +66,13 @@ public class ScenarioController {
 
 		String titre = scenarioForm.getTitre();
 		String description = scenarioForm.getDescription();
-		Integer id = scenarioForm.getId();
-		System.out.println("id : "+id);
 
 		if (titre != null && titre.length() > 0 //
 				&& description != null && description.length() > 0) {
 			Scenario newScenario = new Scenario(titre, description);
-			if(id!=null && id!=0) {
-				newScenario.setId(id);
-			}
-			scenarioRepository.save(newScenario);
+			if (scenarioForm.getId() != null)
+				newScenario.setId(scenarioForm.getId());
+			scenarioService.save(newScenario);
 
 			return "redirect:/scenarioList";
 		}
@@ -86,20 +83,18 @@ public class ScenarioController {
 
 	@RequestMapping(value = { "/updatescenario/{id}" }, method = RequestMethod.GET)
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		Optional<Scenario> scenario = scenarioRepository.findById(id);
+		Optional<Scenario> scenario = scenarioService.getTout();
 		ScenarioForm scenarioForm = new ScenarioForm();
 		if (scenario.isPresent()) {
 			scenarioForm.setId(scenario.get().getId());
 			scenarioForm.setTitre(scenario.get().getTitre());
 			scenarioForm.setDescription(scenario.get().getDescription());
+			model.addAttribute("etapes", etapeService.getEtapesPourScenario(scenario.get()));
 			model.addAttribute("scenarioForm", scenarioForm);
-			model.addAttribute("libelleAction", "Modifier");
-			Iterable<Etape> etapesDb = etapeRepository.findByScenario(scenario.get());
-			model.addAttribute("etapes", etapesDb);
-		}else {
-			model.addAttribute("errorMessage", "Pas de scénario avec cet id");
+			model.addAttribute("typeAction", "Modifier");
+			return "addScenario";
 		}
-		return "addScenario";
+		return showAddScenarioPage(model);
 	}
 
 }

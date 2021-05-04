@@ -9,21 +9,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import fr.cnam.usal3b.nom.prenom.form.EtapeForm;
 import fr.cnam.usal3b.nom.prenom.model.Etape;
 import fr.cnam.usal3b.nom.prenom.model.Scenario;
-import fr.cnam.usal3b.nom.prenom.repository.EtapeRepository;
-import fr.cnam.usal3b.nom.prenom.repository.ScenarioRepository;
+import fr.cnam.usal3b.nom.prenom.service.EtapeService;
+import fr.cnam.usal3b.nom.prenom.service.ScenarioService;
+
 
 @Controller
 public class EtapeController {
 
 	@Autowired
-	private EtapeRepository etapeRepository;
+	private EtapeService EtapeService;
 	@Autowired
-	private ScenarioRepository scenarioRepository;
-
+	private ScenarioService ScenarioService;
 	// Injectez (inject) via application.properties.
 	@Value("${welcome.message}")
 	private String message;
@@ -34,7 +33,7 @@ public class EtapeController {
 	@RequestMapping(value = { "/etapeList" }, method = RequestMethod.GET)
 	public String etapeList(Model model) {
 
-		Iterable<Etape> etapesDb = etapeRepository.findAll();
+		Iterable<Etape> etapesDb = EtapeService.getTout();
 		model.addAttribute("etapes", etapesDb);
 
 		return "etapeList";
@@ -45,7 +44,7 @@ public class EtapeController {
 
 		EtapeForm etapeForm = new EtapeForm();
 		model.addAttribute("etapeForm", etapeForm);
-		Iterable<Scenario> listeScenarios = scenarioRepository.findAll();
+		Iterable<Scenario> listeScenarios = ScenarioService.getTout();
 		model.addAttribute("scenarios", listeScenarios);
 
 		return "addEtape";
@@ -59,14 +58,14 @@ public class EtapeController {
 		// Optionnal est une aide pour traiter la réponse à la requête. Si le scénario
 		// qu'on cherche existe, alors isPresent sera à true. Sinon à false. Evite les
 		// problème de NullPointerException.
-		Optional<Scenario> scenario = scenarioRepository.findById(etapeForm.getScenarioId());
+		Optional<Scenario> scenario = ScenarioService.getUnObjet(etapeForm.getScenarioId());
 		if (scenario.isPresent() && titre != null && titre.length() > 0 // TODO si vous vous ennuyez : chercher @Valid
 				&& description != null && description.length() > 0) {
 			Etape newEtape = new Etape(titre, description);
 			// attention au .get() pour récupérer l'objet Scenario avec l'id remplie dans le
 			// formulaire
 			newEtape.setScenario(scenario.get());
-			etapeRepository.save(newEtape);
+			EtapeService.sauvegarder(newEtape);
 
 			return "redirect:/etapeList";
 		}

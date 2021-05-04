@@ -5,6 +5,7 @@ import fr.cnam.usal3b.nom.prenom.model.TypePlotEnum;
 public class PlotForm {
 	private String titre;
 	private String description;
+	private Integer etapeId;
 	private TypePlotEnum typePlot;
 
 	public String getTitre() {
@@ -29,5 +30,13 @@ public class PlotForm {
 
 	public void setTypePlot(TypePlotEnum typePlot) {
 		this.typePlot = typePlot;
+	}
+
+	public Integer getEtapeId() {
+		return etapeId;
+	}
+
+	public void setEtapeId(Integer etapeId) {
+		this.etapeId = etapeId;
 	}
 }

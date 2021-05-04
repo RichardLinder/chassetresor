@@ -16,8 +16,12 @@
          <br/>
          Description :
          <input type="text" th:field="*{description}" />     
-         <br/>
-         Type de brique : <select
+         <br/> Etape : <select
+			th:field="*{etapeId}">
+			<option th:each="etape : ${etapes}" th:value="${etape.id}"
+				th:utext="${etape.titre}" />
+		</select> <br /> 
+         Type de Plot : <select
 					th:field="*{typePlot}">
 						<option value="">--</option>
 						<option value="INTERLUDE">Interlude</option>
@@ -25,7 +29,7 @@
 						<option value="CHOIX_REPONSE">Choix de réponses</option>
 						<option value="REPONSE_JUSTE">Réponse juste</option>
 						<option value="REPONSE_FAUSSE">Réponse fausse</option>
-				</select>
+				</select><br/>
          <input type="submit" value="Créer" />
       </form>
        

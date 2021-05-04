@@ -18,13 +18,12 @@
             <tr th:each ="scenario : ${scenarios}">
                <td th:utext="${scenario.titre}">...</td>
                <td th:utext="${scenario.description}">...</td>
-               <td>
-					<a 
-						href="./addScenario.html"
+               <td >
+               <a 
+						href="./addscenario.html"
 						th:href="@{/updatescenario/{id}(id=${scenario.id})}">
 						Modifier
-					</a>
-				</td>
+					</a></td>
             </tr>
          </table>
       </div>

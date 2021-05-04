@@ -16,9 +16,10 @@ public class Brique {
 
 	protected String titre;
 	protected String description;
-//	@ManyToOne
-//	@JoinColumn(name = "plot_id", nullable = false)
-//	private Plot plot;
+
+	@ManyToOne
+	@JoinColumn(name = "plot_id", nullable = false)
+	protected Plot plot;
 
 	public Brique() {
 	}
@@ -50,6 +51,14 @@ public class Brique {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Plot getPlot() {
+		return plot;
+	}
+
+	public void setPlot(Plot plot) {
+		this.plot = plot;
 	}
 
 }

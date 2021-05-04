@@ -17,6 +17,19 @@
          Description :
          <input type="text" th:field="*{description}" />     
          <br/>
+         Type de brique : <select
+					th:field="*{typeBrique}">
+						<option value="">--</option>
+						<option value="GEOLOC">Géolocalisation</option>
+						<option value="IMAGE">Image</option>
+						<option value="NFC">Nfc</option>
+						<option value="TEXTE">Texte</option>
+						<option value="VIDEO">Vidéo</option>
+				</select><br/>     
+         Plot : <select th:field="*{plotId}">
+						<option th:each="plot : ${plots}" th:value="${plot.id}"
+							th:utext="${plot.titre}" />
+				</select><br/>
          <input type="submit" value="Créer" />
       </form>
        

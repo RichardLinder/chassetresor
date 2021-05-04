@@ -1,11 +1,16 @@
 package fr.cnam.usal3b.nom.prenom.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Plot {
@@ -16,14 +21,21 @@ public class Plot {
 
 	private String titre;
 	private String description;
+	@ManyToOne
+	@JoinColumn(name = "etape_id", nullable = false)
+	private Etape etape;
 	@Enumerated(EnumType.STRING)
 	private TypePlotEnum typePlot;
-	@ManyToOne
-	@JoinColumn(name = "plot_id", nullable = false)
-	private Etape etape;
 	@OneToMany(mappedBy = "plot")
-	private List<Etape> brique;
-	;
+	private List<BriqueTexte> briqueTextes;
+	@OneToMany(mappedBy = "plot")
+	private List<BriqueGeoloc> briqueGeolocs;
+	@OneToMany(mappedBy = "plot")
+	private List<BriqueImage> briqueImages;
+	@OneToMany(mappedBy = "plot")
+	private List<BriqueNFC> briqueNFCs;
+	@OneToMany(mappedBy = "plot")
+	private List<BriqueVideo> briqueVideos;
 
 	public Plot() {
 	}
@@ -64,18 +76,52 @@ public class Plot {
 	public void setTypePlot(TypePlotEnum typePlot) {
 		this.typePlot = typePlot;
 	}
+
+	public List<BriqueTexte> getBriqueTextes() {
+		return briqueTextes;
+	}
+
+	public void setBriqueTextes(List<BriqueTexte> briqueTextes) {
+		this.briqueTextes = briqueTextes;
+	}
+
+	public List<BriqueGeoloc> getBriqueGeolocs() {
+		return briqueGeolocs;
+	}
+
+	public void setBriqueGeolocs(List<BriqueGeoloc> briqueGeolocs) {
+		this.briqueGeolocs = briqueGeolocs;
+	}
+
+	public List<BriqueImage> getBriqueImages() {
+		return briqueImages;
+	}
+
+	public void setBriqueImages(List<BriqueImage> briqueImages) {
+		this.briqueImages = briqueImages;
+	}
+
+	public List<BriqueNFC> getBriqueNFCs() {
+		return briqueNFCs;
+	}
+
+	public void setBriqueNFCs(List<BriqueNFC> briqueNFCs) {
+		this.briqueNFCs = briqueNFCs;
+	}
+
+	public List<BriqueVideo> getBriqueVideos() {
+		return briqueVideos;
+	}
+
+	public void setBriqueVideos(List<BriqueVideo> briqueVideos) {
+		this.briqueVideos = briqueVideos;
+	}
+
 	public Etape getEtape() {
 		return etape;
 	}
 
 	public void setEtape(Etape etape) {
-		this.scenario = etape;
-	}
-		public List<Etape> getEtapes() {
-		return etapes;
-	}
-
-	public void setEtapes(List<Etape> etapes) {
-		this.etapes = etapes;
+		this.etape = etape;
 	}
 }
