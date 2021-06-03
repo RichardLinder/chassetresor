@@ -57,8 +57,12 @@ public class EtapeController {
 		String description = etapeForm.getDescription();
 		// Optionnal est une aide pour traiter la réponse à la requête. Si le scénario
 		// qu'on cherche existe, alors isPresent sera à true. Sinon à false. Evite les
-		// problème de NullPointerException.
+		// problème de NullPointerException. 
+	}
+		@RequestMapping(value = { "/Scenario" }, method= RequestMethod.GET)
+		public @ResponseBody  ResponseEntity<Scenario> scenarioJson(@PathVariable("id") Integer id) {
 		Optional<Scenario> scenario = ScenarioService.getUnObjet(etapeForm.getScenarioId());
+
 		if (scenario.isPresent() && titre != null && titre.length() > 0 // TODO si vous vous ennuyez : chercher @Valid
 				&& description != null && description.length() > 0) {
 			Etape newEtape = new Etape(titre, description);
@@ -69,6 +73,7 @@ public class EtapeController {
 
 			return "redirect:/etapeList";
 		}
+		
 
 		model.addAttribute("errorMessage", errorMessage);
 		return "addEtape";
